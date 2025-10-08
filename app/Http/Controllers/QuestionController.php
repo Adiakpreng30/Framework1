@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -27,25 +26,28 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-       $request->validate([
-		    'nama'  => 'required|max:10',
-		    'email' => ['required','email'],
-		    'pertanyaan' => 'required|max:300|min:8',
-		],[
-            'nama.required' => 'Nama tidak boleh kosong',
-            'nama.max' => 'Nama maksimal 10 karakter',
-            'email.required' => 'email tidak boleh kosong',
-            'pertanyaan.required' => 'pertanyaan tidak boleh kosong',
-            'pertanyaan.min' => 'pertanyaan minimal 8 karakter',
-            'email.email' => 'Format email tidak valid',
-
-
+        $validatedData = $request->validate([
+            'nama'       => 'required|max:50',
+            'email'      => ['required', 'email'],
+            'pertanyaan' => 'required|max:300|min:3',
+        ], [
+            'nama.required'       => 'Nama tidak boleh kosong',
+            'nama.max'            => 'Nama maksimal 50 karakter',
+            'email.required'      => 'Email tidak boleh kosong',
+            'pertanyaan.required' => 'Pertanyaan tidak boleh kosong',
+            'pertanyaan.min'      => 'Pertanyaan minimal 3 karakter',
+            'email.email'         => 'Format email tidak valid',
         ]);
 
-        return view('home-question-respon');
+        $nama       = $validatedData['nama'];
+        $pertanyaan = $validatedData['pertanyaan'];
+        $email      = $validatedData['email'];
 
+        $pesan = "Terimakasih {$nama}! Pertanyaan Anda: '{$pertanyaan}' akan segera direspon melalui email {$email}";
+
+        // Redirect kembali dengan membawa pesan yang sudah dirangkai
+        return redirect()->back()->with('success', $pesan);
     }
-
     /**
      * Display the specified resource.
      */

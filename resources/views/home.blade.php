@@ -8,6 +8,7 @@
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ asset('assets/css/custom-style.css') }}">
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -56,7 +57,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" href="#">My App</a>
+      <img src="{{ asset('assets/images/logo.png') }}" class="logo-navbar" alt="Logo">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -83,7 +84,7 @@
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="container">
-      <h1> {{ $username }} </h1>
+      <h1 class="font-custom"> {{ $username }} </h1>
       <p> {{ $last_login }} </p>
       <p class="lead">A simple and elegant app using Bootstrap 5 and Laravel Blade</p>
       <a href="#content" class="btn btn-light btn-lg mt-3">Learn More</a>
@@ -94,6 +95,17 @@
   <section id="content" class="container mt-5">
     <div class="row">
       <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">About Our Application</h5>
+            <p class="card-text">Our application provides a clean and intuitive interface, allowing users to navigate
+              easily and perform tasks efficiently. Built with Laravel and Bootstrap, it offers flexibility and
+              responsiveness.</p>
+            <a href="#" class="btn btn-primary">Explore More</a>
+          </div>
+        </div>
+      </div>
+       <div class="col-md-6">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">About Our Application</h5>
@@ -118,23 +130,31 @@
                 @endforeach
               </ul>
             </div>
-            @endif
-            <form action="{{ route('question.store') }}" method="POST">
-              @csrf
-              <div class="mb-3">
-                <label for="nama" class="form-label">Nama</label>
-                <input type="text" name="nama" class="form-control">
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="text" name="email" class="form-control">
-              </div>
-              <div class="mb-3">
-                <label for="pertanyaan" class="form-label">Pertanyaan</label>
-                <textarea class="form-control" name="pertanyaan" rows="4"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Kirim Pertanyaan</button>
-            </form>
+          @endif
+
+          @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ session('success') }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          @endif
+
+          <form action="{{ route('question.store') }}" method="POST">
+            @csrf
+            <div class="mb-3">
+              <label for="nama" class="form-label">Nama</label>
+              <input type="text" name="nama" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" name="email" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="pertanyaan" class="form-label">Pertanyaan</label>
+              <textarea class="form-control" name="pertanyaan" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Kirim Pertanyaan</button>
+          </form>
         </div>
       </div>
 

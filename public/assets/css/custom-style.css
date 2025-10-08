@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'MyCustomFont';
+    /* Path relatif dari folder /css ke folder /assets/fonts */
+    src: url('../assets/fonts/PlaywriteDESAS-Light.ttf');
+}
+
+.font-custom {
+    font-family: 'MyCustomFont';
+}
+
+.logo-navbar {
+    height: 40px;
+    width: auto;
+}
