@@ -1,10 +1,12 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pelanggan;
 use Illuminate\Validation\Rule;
+
 
 class PelangganController extends Controller
 {
@@ -42,6 +44,7 @@ class PelangganController extends Controller
 
         Pelanggan::create($validatedData);
 
+
         return redirect()->route('pelanggan.index')->with('success', 'Penambahan Data Berhasil!');
     }
 
@@ -58,8 +61,10 @@ class PelangganController extends Controller
      */
     public function edit(string $id)
     {
+
         $data['dataPelanggan'] = Pelanggan::findOrFail($id);
         return view('admin.pelanggan.edit', $data);
+
     }
 
     /**
@@ -67,6 +72,7 @@ class PelangganController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         // Validasi data berdasarkan aturan dari gambar
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
@@ -83,6 +89,7 @@ class PelangganController extends Controller
         $pelanggan->update($validatedData);
 
         return redirect()->route('pelanggan.index')->with('success', 'Perubahan Data Berhasil!');
+
     }
 
     /**
@@ -90,9 +97,11 @@ class PelangganController extends Controller
      */
     public function destroy(string $id)
     {
+
         $pelanggan = Pelanggan::findOrFail($id);
 
         $pelanggan->delete();
         return redirect()->route('pelanggan.index')->with('success', 'Data berhasil dihapus');
+
     }
 }
