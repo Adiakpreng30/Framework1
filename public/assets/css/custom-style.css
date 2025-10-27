@@ -1,7 +1,6 @@
 @font-face {
     font-family: 'MyCustomFont';
-    /* Path relatif dari folder /css ke folder /assets/fonts */
-    src: url('../assets/fonts/PlaywriteDESAS-Light.ttf');
+    src: url('../fonts/PlaywriteDESAS-Light.ttf');
 }
 
 .font-custom {

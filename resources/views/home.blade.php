@@ -86,7 +86,7 @@
     <div class="container">
       <h1 class="font-custom"> {{ $username }} </h1>
       <p> {{ $last_login }} </p>
-      <p class="lead">A simple and elegant app using Bootstrap 5 and Laravel Blade</p>
+      <p class="lead font-custom">A simple and elegant app using Bootstrap 5 and Laravel Blade</p>
       <a href="#content" class="btn btn-light btn-lg mt-3">Learn More</a>
     </div>
   </section>
