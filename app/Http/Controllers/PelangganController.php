@@ -1,22 +1,26 @@
 <?php
 
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Pelanggan;
 use Illuminate\Validation\Rule;
 
+use function Laravel\Prompts\search;
 
 class PelangganController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   public function index(Request $request)
     {
-        $data['dataPelanggan'] = Pelanggan::all();
-        return view('admin.pelanggan.index', $data);
+        $searchableColumns = ['first_name','last_name','gender','email'];
+        $filterableColumns = ['gender'];
+        $pageData['dataPelanggan'] = Pelanggan::filter($request, $filterableColumns)
+        ->search($request,$searchableColumns)
+        ->paginate(10)->withQueryString() ;
+        // $data['dataPelanggan'] = Pelanggan::simplePaginate(10);
+        return view('admin.pelanggan.index', $pageData);
     }
 
     /**
