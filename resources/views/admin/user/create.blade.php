@@ -46,7 +46,7 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('user.store') }}" method="POST">
+                    <Form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-4">
                             <div class="col-lg-4 col-sm-6">
@@ -74,9 +74,24 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                                    <input type="password" id="password_confirmation" name="password_confirmation" value="{{ old('password_confirmation') }}"
-                                        class="form-control" required>
+                                    <input type="password" id="password_confirmation" name="password_confirmation"
+                                        value="{{ old('password_confirmation') }}" class="form-control" required>
                                 </div>
+                                <div class="mb-3">
+                                    <label>Pilih Role</label>
+                                    <select name="role" class="form-control" required>
+                                        <option value="">-- Pilih --</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!-- Input Foto -->
+                                <div class="mb-3">
+                                    <label>Foto Profil</label>
+                                    <input type="file" name="avatar" class="form-control">
+                                </div>
+
 
                                 <!-- Buttons -->
                                 <div class="mb-3">

@@ -46,19 +46,18 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('user.update', $dataUser->id) }}" method="POST">
+                    <form action="{{ route('user.update', $dataUser->id) }}" enctype="multipart/form-data" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="row mb-4">
+
                             <div class="col-lg-4 col-sm-6">
-                                <!-- Nama -->
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nama</label>
                                     <input type="text" id="name" name="name"
                                         value="{{ old('name', $dataUser->name) }}" class="form-control" required>
                                 </div>
 
-                                <!-- Email -->
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="text" id="email" name="email"
@@ -67,24 +66,66 @@
                             </div>
 
                             <div class="col-lg-4 col-sm-6">
-                                <!-- password -->
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" id="password" name="password"
-                                        value="{{ old('password', $dataUser->password) }}" class="form-control">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                                    <input type="password_confirmation" id="password_confirmation" name="password_confirmation"
-                                        value="{{ old('password_confirmation', $dataUser->password_confirmation) }}" class="form-control">
-                                </div>
-                                <!-- Buttons -->
-                                <div class="">
-                                    <button type="submit" class="btn btn-info">Simpan Perubahan</button>
-                                    <a href="{{ route('user.index') }}" class="btn btn-outline-secondary ms-2">Batal</a>
+                                    <label for="password" class="form-label">Password <small
+                                            class="text-muted">(Opsional)</small></label>
+                                    <input type="password" id="password" name="password" value=""
+                                        class="form-control" placeholder="Kosongkan jika tetap">
                                 </div>
 
+                                <div class="mb-3">
+                                    <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                                    <input type="password" id="password_confirmation" name="password_confirmation"
+                                        value="" class="form-control" placeholder="Ulangi password baru">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Pilih Role</label>
+                                    <select name="role" class="form-control" required>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->name }}"
+                                                {{ $dataUser->hasRole($role->name) ? 'selected' : '' }}>
+                                                {{ ucfirst($role->name) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
+
+                            <div class="col-lg-4 col-sm-12">
+                                <div class="mb-3">
+                                    <label for="avatar" class="form-label fw-bold">Foto Profil</label>
+
+                                    <div class="card shadow-sm mb-2">
+                                        <div class="card-body text-center p-3">
+                                            @if ($dataUser->avatar)
+                                                <img src="{{ asset('storage/' . $dataUser->avatar) }}" alt="Foto User"
+                                                    class="img-fluid rounded mb-2"
+                                                    style="max-height: 150px; object-fit: cover;">
+                                                <p class="small text-muted mb-0">Foto saat ini</p>
+                                            @else
+                                                <div class="bg-light rounded d-flex align-items-center justify-content-center mb-2"
+                                                    style="height: 150px;">
+                                                    <span class="text-muted">Belum ada foto</span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <input type="file" id="avatar" name="avatar" class="form-control">
+                                    <div class="form-text text-muted">
+                                        Biarkan kosong jika tidak ingin mengubah foto. <br>
+                                        Format: JPG, PNG, JPEG. Maks: 2MB.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-info"><i class="fas fa-save me-1"></i> Simpan
+                                Perubahan</button>
+                            <a href="{{ route('user.index') }}" class="btn btn-outline-secondary ms-2">Batal</a>
                         </div>
                     </form>
                 </div>

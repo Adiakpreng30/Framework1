@@ -1,40 +1,40 @@
 <?php
-namespace App\Http\Controllers;
 
+namespace App\Http\Controllers;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     public function index()
     {
-        return view('login-form');
+        return view('auth.login');
     }
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => [
-                'required',
-                'min:3',
-                'regex:/[A-Z]/', // Memastikan ada minimal satu huruf kapital
-            ],
-        ], [
-            'username.required' => 'Username wajib diisi.',
-            'password.required' => 'Password wajib diisi.',
-            'password.min'      => 'Password minimal 3 karakter.',
-            'password.regex'    => 'Password harus mengandung minimal satu huruf kapital.',
+        $input = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
-
-        // Kalo gagal kembali ke hal login
-        if ($validator->fails()) {
-            return redirect()->route('login.form')
-                ->withErrors($validator)
-                ->withInput();
+        if (Auth::attempt($input)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/dashboard'); // Arahkan User Biasa
         }
-        return redirect()->route('dashboard')
-            ->with('success', 'Login berhasil!.');
 
+        // Jika Login Gagal
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ]);
+    }
+
+    // 3. Proses Logout
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
 }

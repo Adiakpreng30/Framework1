@@ -9,9 +9,6 @@ use function Laravel\Prompts\search;
 
 class PelangganController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
    public function index(Request $request)
     {
         $searchableColumns = ['first_name','last_name','gender','email'];
